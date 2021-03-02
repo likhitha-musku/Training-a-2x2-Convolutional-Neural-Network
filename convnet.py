@@ -18,8 +18,6 @@ traindata = np.empty((len(labels),3,3), dtype=np.float32)
 testdata = np.empty((len(labels),3,3), dtype=np.float)
 for i in range(0, len(labels)):
 	image_matrix = np.loadtxt(traindir+'/'+names[i])
-#	traindata = np.append(traindata, np.array(image_matrix, ndmin=3, dtype=int8), axis=0)
-#	traindata[i] = np.array(image_matrix, ndmin=3, dtype=np.int8)
 	traindata[i] = image_matrix
 
 print("train")
@@ -33,7 +31,6 @@ testlabels = df['Label'].values
 
 for i in range(0,len(testlabels)):
     image_matrix=np.loadtxt(testdir+'/'+names[i])
-	#traindata=np.append(traindata,image_matrix,axis=0)
     testdata[i] = image_matrix
 
 sigmoid = lambda x: 1/(1+np.exp(-x))
@@ -42,7 +39,6 @@ sigmoid = lambda x: 1/(1+np.exp(-x))
 ### Initialize all weights ###
 
 c = np.random.rand(2,2)
-#c = np.ones((2,2), dtype=np.float32)
 
 epochs = 1000
 eta = 0.01
@@ -70,7 +66,6 @@ print("objective=",objective)
 
 stop=0.001
 while(prevobj - objective > stop):
-#while(prevobj - obj > 0):
 
 	#Update previous objective
 	prevobj = objective
@@ -78,15 +73,12 @@ while(prevobj - objective > stop):
 	#Calculate gradient update for final layer (w)
 	#dellw is the same dimension as w
 
-#	print(hidden_layer[0,:].shape, w.shape)
-
 	print("c=",c)
 	dellc1=0
 	dellc2=0
 	dellc3=0
 	dellc4=0
 	for i in range(0, len(labels)):
-#	        print("traindata[i]=",traindata[i])
 
 		## Do the convolution
         	hidden_layer = signal.convolve2d(traindata[i], c, mode="valid")
@@ -134,9 +126,7 @@ while(prevobj - objective > stop):
 	print("c=",c)
 
 	for i in range(0, len(labels)):
-#		print("traindata[i]=",traindata[i])
 		hidden_layer = signal.convolve2d(traindata[i], c, mode="valid")
-#		print(hidden_layer)
 		for j in range(0, 2, 1):
 			for k in range(0, 2, 1):
 				hidden_layer[j][k] = sigmoid(hidden_layer[j][k])
